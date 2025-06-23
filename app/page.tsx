@@ -14,8 +14,13 @@ import {
   MobileNavMenu,
 } from "@/component/UI/Navbar";
 import { ContainerScroll } from "@/component/UI/ScrollFeature";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import CountdownWithSlide from "@/component/UI/CountDown";
+import { AnimatedTooltip } from "@/component/UI/AnimatedToolTip";
+import { cn } from "@/lib/utils";
+import createGlobe from "cobe";
+import { TextGenerateEffect } from "@/component/UI/TextType";
+
 export default function Home() {
   const [showContent, setShowContent] = useState(false);
   const navItems = [
@@ -127,7 +132,52 @@ export default function Home() {
         "https://aceternity.com/images/products/thumbnails/new/efreeinvoice.png",
     },
   ];
-  const words = ["better", "cute", "beautiful", "amazing", "awesome", "cool"];
+  const people = [
+    {
+      id: 1,
+      name: "John Doe",
+      designation: "Software Engineer",
+      image:
+        "https://images.unsplash.com/photo-1599566150163-29194dcaad36?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3387&q=80",
+    },
+    {
+      id: 2,
+      name: "Robert Johnson",
+      designation: "Product Manager",
+      image:
+        "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8YXZhdGFyfGVufDB8fDB8fHww&auto=format&fit=crop&w=800&q=60",
+    },
+    {
+      id: 3,
+      name: "Jane Smith",
+      designation: "Data Scientist",
+      image:
+        "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8YXZhdGFyfGVufDB8fDB8fHww&auto=format&fit=crop&w=800&q=60",
+    },
+    {
+      id: 4,
+      name: "Emily Davis",
+      designation: "UX Designer",
+      image:
+        "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fGF2YXRhcnxlbnwwfHwwfHx8MA%3D%3D&auto=format&fit=crop&w=800&q=60",
+    },
+    {
+      id: 5,
+      name: "Tyler Durden",
+      designation: "Soap Developer",
+      image:
+        "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3540&q=80",
+    },
+    {
+      id: 6,
+      name: "Dora",
+      designation: "The Explorer",
+      image:
+        "https://images.unsplash.com/photo-1544725176-7c40e5a71c5e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=3534&q=80",
+    },
+  ];
+  const words = ["happy", "satisfied", "delighted", "excited", "thrilled"];
+  const Sentence = `Oxygen gets you high. In a catastrophic emergency, we're taking giant, panicked breaths. Suddenly you become euphoric, docile. You accept your fate. It's all right here. Emergency water landing, six hundred miles an hour. Blank faces, calm as Hindu cows`;
   const SkeletonOne = () => {
     return (
       <div>
@@ -186,6 +236,13 @@ export default function Home() {
       </div>
     );
   };
+  const SkeletonFive = () => {
+    return (
+      <div className="h-60 md:h-60  flex flex-col items-center relative bg-transparent dark:bg-transparent mt-10">
+        <Globe className="absolute -right-10 md:-right-10 -bottom-80 md:-bottom-72" />
+      </div>
+    );
+  };
 
   const cards = [
     {
@@ -215,6 +272,16 @@ export default function Home() {
       className: "md:col-span-2",
       thumbnail:
         "https://images.unsplash.com/photo-1475070929565-c985b496cb9f?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    },
+  ];
+
+  const features = [
+    {
+      title: "Deploy in seconds",
+      description:
+        "With our blazing fast, state of the art, cutting edge, we are so back cloud servies (read AWS) - you can deploy your model in seconds.",
+      skeleton: <SkeletonFive />,
+      className: "col-span-1 lg:col-span-3 border-b lg:border-none",
     },
   ];
 
@@ -282,23 +349,62 @@ export default function Home() {
             </MobileNav>
           </Navbar>
 
-          {/* Hero */}
+          {/* Hero Section */}
+          <section className="relative h-screen w-full overflow-hidden">
+            {/* Background Video */}
+            <video
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="absolute inset-0 w-full h-full object-cover"
+            >
+              <source src={"/video.mp4"} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+
+            {/* Overlay */}
+            <div className="absolute inset-0 bg-black/40 z-10" />
+
+            {/* Centered Text */}
+            <div className="relative z-20 flex items-center justify-center h-full">
+              <h1 className="text-white text-5xl md:text-7xl font-extrabold tracking-wide">
+                Studio<span className="text-cyan-400">9</span>
+              </h1>
+            </div>
+          </section>
+
+          {/* Showcase */}
           <HeroParallax products={products} />
 
-          {/* Flip Words Section */}
-          {/* <div className=" flex justify-center items-center mt-20">
-          <div className="text-6xl mx-auto font-normal text-neutral-600 dark:text-neutral-400">
-            Capture
-            <FlipWords words={words} />
-            with Studio9
-          </div>
-        </div> */}
-
-          <div className="h-screen py-20 w-full">
+          {/* Services */}
+          <div className="h-screen py-20 w-full flex flex-row items-center justify-center">
+            <section className="py-16 px-6 md:px-20 ml-4">
+              <div className="max-w-3xl mx-auto text-center md:text-left">
+                <h2 className="text-6xl md:text-4xl font-extrabold text-black mb-8 tracking-wide">
+                  OUR SERVICES
+                </h2>
+                <ul className="text-4xl space-y-4 text-lg text-gray-800 font-medium font-thin">
+                  <li className="text-2xl transition-all duration-300 hover:translate-x-2 hover:text-black">
+                    Fashion Photography
+                  </li>
+                  <li className="text-2xl transition-all duration-300 hover:translate-x-2 hover:text-black">
+                    Portrait Photography
+                  </li>
+                  <li className="text-2xl transition-all duration-300 hover:translate-x-2 hover:text-black">
+                    Commercial Photography
+                  </li>
+                  <li className="text-2xl transition-all duration-300 hover:translate-x-2 hover:text-black">
+                    Fine Art Photography
+                  </li>
+                </ul>
+              </div>
+            </section>
             <LayoutGrid cards={cards} />
           </div>
-
-          {/* Hero Image Section */}
+          
+          {/* About */}
+          <TextGenerateEffect words={Sentence} />;{/* Hero Image Section */}
           <div className="flex flex-col overflow-hidden">
             <ContainerScroll
               titleComponent={
@@ -323,8 +429,106 @@ export default function Home() {
               />
             </ContainerScroll>
           </div>
+          {/* Footer */}
+          <div className="relative z-20 max-w-7xl mx-auto">
+            <div className="relative ">
+              <div className="grid grid-cols-2 gap-4 rounded-md dark:border-neutral-800">
+                {features.map((feature) => (
+                  <FeatureCard
+                    key={feature.title}
+                    className={feature.className}
+                  >
+                    <div className="centre h-full w-full mr-500">
+                      {feature.skeleton}
+                    </div>
+                  </FeatureCard>
+                ))}
+              </div>
+            </div>
+            <div className="px-8">
+              <h4 className="text-3xl lg:text-5xl lg:leading-tight max-w-5xl mx-auto text-center tracking-tight font-medium text-black dark:text-black">
+                Packed with many Benifits
+              </h4>
+
+              <p className="text-sm lg:text-base  max-w-2xl  my-4 mx-auto text-neutral-500 text-center font-normal dark:text-black-300">
+                From timeless portraits to cinematic visuals, our photo studio
+                does it all. Whether it’s capturing emotion, crafting campaigns,
+                or building your brand’s visual identity — we have the creative
+                tools and talent to bring your vision to life. Yes, even this
+                website could be our lens at work.
+                <p className="text-sm mt-12">Made With 💌 by Govind</p>
+              </p>
+            </div>
+          </div>
         </div>
       )}
     </div>
   );
 }
+const FeatureCard = ({
+  children,
+  className,
+}: {
+  children?: React.ReactNode;
+  className?: string;
+}) => {
+  return (
+    <div className={cn(`p-4 sm:p-8 relative overflow-hidden`, className)}>
+      {children}
+    </div>
+  );
+};
+
+export const Globe = ({ className }: { className?: string }) => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    let phi = 0;
+
+    if (!canvasRef.current) return;
+
+    const globe = createGlobe(canvasRef.current, {
+      devicePixelRatio: 2,
+      width: 600 * 2,
+      height: 600 * 2,
+      phi: 0,
+      theta: 0,
+      dark: 1,
+      diffuse: 1.2,
+      mapSamples: 16000,
+      mapBrightness: 6,
+      baseColor: [0.3, 0.3, 0.3],
+      markerColor: [0.1, 0.8, 1],
+      glowColor: [1, 1, 1],
+      markers: [
+        // longitude latitude
+        { location: [37.7595, -122.4367], size: 0.03 },
+        { location: [40.7128, -74.006], size: 0.1 },
+      ],
+      onRender: (state) => {
+        // Called on every animation frame.
+        // `state` will be an empty object, return updated params.
+        state.phi = phi;
+        phi += 0.01;
+      },
+    });
+
+    return () => {
+      globe.destroy();
+    };
+  }, []);
+
+  return (
+    <canvas
+      ref={canvasRef}
+      style={{
+        width: 600,
+        height: 600,
+        maxWidth: "100%",
+        aspectRatio: 1,
+        marginRight: "29%",
+      }}
+      className={className}
+    />
+  );
+};
